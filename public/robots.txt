@@ -1,3 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
+
+# sitemap reference
+Sitemap: https://www.diatranscom.example/sitemap.xml

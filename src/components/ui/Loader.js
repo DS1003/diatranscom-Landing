@@ -1,103 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 
 const Loader = () => {
-  return (
-    <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-amber-50/30">
-      <div className="relative flex flex-col items-center justify-center">
-        
-        {/* Arrière-plan décoratif */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-amber-500/8 rounded-full blur-2xl animate-pulse-slow animation-delay-1000"></div>
-        </div>
-        
-        {/* Logo avec animation subtile */}
-        <img
-          src="https://res.cloudinary.com/dgro5x4h8/image/upload/v1747407214/Logo_Master_1_mxvijk.png"
-          alt="Logo DIA TRANSCOM"
-          className="w-[500px] h-[500px] md:w-[700px] md:h-[700px] object-contain relative z-10 animate-float"
-          style={{ filter: "drop-shadow(0 8px 32px rgba(245, 158, 11, 0.15))" }}
-        />
+    const [progress, setProgress] = useState(0);
 
-        {/* Indicateur de chargement moderne */}
-        <div className="relative mb-8">
-          <div className="flex space-x-3">
-            <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full animate-bounce-wave"></div>
-            <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full animate-bounce-wave animation-delay-200"></div>
-            <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full animate-bounce-wave animation-delay-400"></div>
-          </div>
-        </div>
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setProgress(prev => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    return 100;
+                }
+                return prev + 2;
+            });
+        }, 40);
+        return () => clearInterval(interval);
+    }, []);
 
-        {/* Texte élégant */}
-        <div className="text-center">
-          <p className="text-slate-600 text-base font-medium tracking-wider mb-2">
-            DIA TRANSCOM
-          </p>
-          <p className="text-slate-400 text-sm font-light tracking-wide">
-            Chargement en cours...
-          </p>
-        </div>
-      </div>
+    return (
+        <div className="fixed inset-0 bg-slate-950 z-[9999] flex flex-col items-center justify-center overflow-hidden">
+            {/* Background patterns */}
+            <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-400 rounded-full blur-[120px]"></div>
+            </div>
 
-      <style>{`
+            <div className="relative z-10 text-center">
+                {/* Animated Building Icon */}
+                <div className="mb-12 relative inline-block">
+                    <svg className="w-24 h-24 text-amber-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                    </svg>
+                    <div className="absolute -inset-4 border border-amber-400/20 rounded-full animate-[spin_4s_linear_infinite]"></div>
+                    <div className="absolute -inset-8 border border-blue-400/10 rounded-full animate-[spin_8s_linear_infinite_reverse]"></div>
+                </div>
+
+                <h2 className="text-3xl font-black text-white mb-2 tracking-[0.2em]">DIATRANSCOM</h2>
+                <p className="text-blue-400/60 font-medium uppercase tracking-widest text-xs mb-12">Chargement de l'excellence...</p>
+
+                {/* Progress bar container */}
+                <div className="w-64 h-1 bg-white/5 rounded-full overflow-hidden relative">
+                    <div
+                        className="h-full bg-gradient-to-r from-blue-600 via-amber-400 to-blue-600 transition-all duration-300 ease-out shadow-[0_0_15px_rgba(251,191,36,0.5)]"
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+
+                {/* Percentage indicator */}
+                <div className="mt-4 text-white/40 font-mono text-sm">
+                    {progress}%
+                </div>
+            </div>
+
+            {/* Construction particles */}
+            {[...Array(6)].map((_, i) => (
+                <div
+                    key={i}
+                    className="absolute w-1 h-1 bg-amber-400 rounded-full"
+                    style={{
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                        opacity: Math.random(),
+                        animation: `float ${3 + Math.random() * 4}s linear infinite`
+                    }}
+                ></div>
+            ))}
+
+            <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          25% { transform: translateY(-8px) rotate(1deg); }
-          50% { transform: translateY(-4px) rotate(0deg); }
-          75% { transform: translateY(-8px) rotate(-1deg); }
-        }
-        
-        @keyframes bounce-wave {
-          0%, 80%, 100% { 
-            opacity: 0.4; 
-            transform: translateY(0) scale(1); 
-          }
-          40% { 
-            opacity: 1; 
-            transform: translateY(-12px) scale(1.1); 
-          }
-        }
-        
-        @keyframes pulse-glow {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.05); }
-        }
-        
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 0.4; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.1); }
-        }
-        
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        
-        .animate-bounce-wave {
-          animation: bounce-wave 1.8s infinite ease-in-out;
-        }
-        
-        .animate-pulse-glow {
-          animation: pulse-glow 2s infinite ease-in-out;
-        }
-        
-        .animate-pulse-slow {
-          animation: pulse-slow 4s infinite ease-in-out;
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-        }
-        
-        .animation-delay-1000 {
-          animation-delay: 1s;
+          0% { transform: translateY(0) translateX(0); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Loader;
