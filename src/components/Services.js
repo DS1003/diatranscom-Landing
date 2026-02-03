@@ -81,41 +81,71 @@ const Services = () => {
     }
   };
 
+  const scrollToContact = () => {
+    const element = document.getElementById('contact');
+    if (element) {
+      const headerHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition - headerHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <section id="services" className="py-24 bg-slate-50 relative overflow-hidden">
       {/* Decorative Orbs */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
-        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-amber-100 rounded-full blur-3xl opacity-50"></div>
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            scale: [1, 1.1, 1],
+            rotate: [0, 5, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-50"
+        ></motion.div>
+        <motion.div
+          animate={{
+            y: [0, 20, 0],
+            scale: [1, 1.05, 1],
+            rotate: [0, -5, 0]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-1/4 -right-20 w-80 h-80 bg-amber-100 rounded-full blur-3xl opacity-50"
+        ></motion.div>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-16 relative z-10">
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded-full text-xs font-bold tracking-widest uppercase mb-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ type: "spring", stiffness: 100 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-900 text-white rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-lg shadow-blue-900/20"
           >
             <span className="w-2 h-2 bg-amber-400 rounded-full animate-ping"></span>
             Nos Domaines d'Intervention
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-blue-900 mb-8 leading-tight"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl md:text-5xl lg:text-7xl font-black text-blue-900 mb-8 leading-tight"
           >
-            Excellence & <span className="text-amber-500">Innovation</span> pour vos infrastructures
+            Excellence & <span className="text-amber-500">Innovation</span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-600 text-lg md:text-xl leading-relaxed"
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-gray-600 text-lg md:text-xl leading-relaxed font-medium"
           >
             Nous mettons notre savoir-faire au service de vos défis les plus complexes
             avec un engagement total sur la qualité et la durabilité.
@@ -126,46 +156,67 @@ const Services = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {services.map((service) => (
             <motion.div
               key={service.id}
               variants={itemVariants}
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-[2.5rem] p-8 shadow-xl shadow-blue-900/5 group relative overflow-hidden border border-transparent hover:border-blue-100 transition-all duration-300"
+              whileHover={{
+                y: -15,
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
+              className="bg-white rounded-[2.5rem] p-9 shadow-xl shadow-blue-900/5 group relative overflow-hidden border border-transparent hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-shadow duration-500"
             >
-              <div className={`w-16 h-16 rounded-2xl bg-${service.color}-50 flex items-center justify-center text-${service.color}-600 mb-8 group-hover:scale-110 group-hover:bg-${service.color}-600 group-hover:text-white transition-all duration-500`}>
+              <motion.div
+                whileHover={{ rotate: 12, scale: 1.1 }}
+                className={`w-20 h-20 rounded-2xl bg-${service.color}-50 flex items-center justify-center text-${service.color}-600 mb-8 group-hover:bg-${service.color}-600 group-hover:text-white transition-all duration-500 shadow-sm`}
+              >
                 {service.icon}
-              </div>
+              </motion.div>
 
-              <h3 className="text-2xl font-bold text-blue-900 mb-4 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl font-black text-blue-900 mb-4 group-hover:text-blue-600 transition-colors">
                 {service.title}
               </h3>
 
-              <p className="text-gray-500 leading-relaxed mb-8 flex-grow">
+              <p className="text-gray-500 leading-relaxed mb-8 flex-grow font-medium">
                 {service.description}
               </p>
 
-              <div className="space-y-3 mb-8">
+              <div className="space-y-4 mb-9">
                 {service.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <ChevronRight className={`w-4 h-4 text-${service.color}-500`} />
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + (idx * 0.1) }}
+                    className="flex items-center gap-3 text-sm font-bold text-gray-700"
+                  >
+                    <div className={`w-1.5 h-1.5 rounded-full bg-${service.color}-400 group-hover:scale-150 transition-transform`} />
                     {feature}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
-              <button className="flex items-center gap-2 text-blue-900 font-bold group/btn">
-                En savoir plus
-                <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <motion.button
+                onClick={scrollToContact}
+                whileHover={{ gap: "1rem" }}
+                className="flex items-center gap-2 text-blue-900 font-black group/btn"
+              >
+                <span>En savoir plus</span>
+                <ArrowRight className="w-5 h-5 text-amber-500" />
+              </motion.button>
 
               {/* Decorative background number */}
-              <div className="absolute -bottom-4 -right-4 text-9xl font-black text-gray-50 -z-10 group-hover:text-gray-100 transition-colors pointer-events-none">
+              <motion.div
+                initial={{ opacity: 0.05, y: 20 }}
+                whileInView={{ opacity: 0.1, y: 0 }}
+                className="absolute -bottom-6 -right-6 text-[12rem] font-black text-gray-100 -z-10 group-hover:text-blue-50 group-hover:scale-110 transition-all duration-700 pointer-events-none"
+              >
                 {service.id}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
@@ -182,7 +233,10 @@ const Services = () => {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Un projet spécifique en tête ?</h3>
               <p className="text-blue-300">Nos ingénieurs sont prêts à relever tous les défis.</p>
             </div>
-            <button className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-blue-900 font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-xl shadow-amber-400/20">
+            <button
+              onClick={scrollToContact}
+              className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-blue-900 font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-xl shadow-amber-400/20"
+            >
               Discuter avec un expert
             </button>
           </div>

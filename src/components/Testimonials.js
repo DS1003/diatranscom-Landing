@@ -45,37 +45,53 @@ const Testimonials = () => {
 
     return (
         <section id="testimonials" className="py-24 bg-gray-50 relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            {/* Background Decor Orbs with Animation */}
+            <motion.div
+                animate={{
+                    y: [0, -30, 0],
+                    x: [0, 20, 0],
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
+            ></motion.div>
+            <motion.div
+                animate={{
+                    y: [0, 30, 0],
+                    x: [0, -20, 0],
+                }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute bottom-0 left-0 w-96 h-96 bg-amber-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"
+            ></motion.div>
 
-            <div className="container mx-auto px-6 lg:px-16 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="text-center max-w-3xl mx-auto mb-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="inline-block px-4 py-2 bg-amber-100 text-amber-700 font-bold rounded-lg mb-6 tracking-wider uppercase text-sm"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500/10 text-amber-700 font-black rounded-full mb-6 tracking-widest uppercase text-xs"
                     >
+                        <span className="w-2 h-2 bg-amber-500 rounded-full animate-ping"></span>
                         Témoignages
                     </motion.div>
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-5xl font-bold text-blue-900 mb-6"
+                        transition={{ duration: 0.8 }}
+                        className="text-5xl md:text-6xl font-black text-blue-900 mb-8 leading-tight"
                     >
-                        Ce que nos <span className="text-amber-500">Clients</span> disent de nous
+                        Ce que nos <span className="text-amber-500">Clients</span> disent
                     </motion.h2>
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-gray-600 text-lg"
+                        transition={{ delay: 0.2, duration: 0.8 }}
+                        className="text-gray-600 text-xl font-medium"
                     >
-                        La satisfaction de nos partenaires est notre plus belle réussite. Découvrez les retours d'expérience de ceux qui nous font confiance.
+                        La satisfaction de nos partenaires est notre plus belle réussite.
+                        Découvrez les retours d'expérience de ceux qui nous font confiance.
                     </motion.p>
                 </div>
 
@@ -83,34 +99,46 @@ const Testimonials = () => {
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "-100px" }}
                     className="grid grid-cols-1 md:grid-cols-3 gap-8"
                 >
                     {testimonials.map((t, i) => (
                         <motion.div
                             key={i}
                             variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            className="bg-white p-8 rounded-3xl shadow-xl shadow-blue-900/5 border border-white hover:border-amber-200 transition-all duration-300 group"
+                            whileHover={{
+                                y: -15,
+                                rotate: i % 2 === 0 ? 1 : -1,
+                                scale: 1.02
+                            }}
+                            className="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-transparent hover:border-amber-200 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 group relative"
                         >
-                            <div className="flex gap-1 mb-6">
+                            <div className="flex gap-1 mb-8">
                                 {[...Array(5)].map((_, star) => (
                                     <Star key={star} className="w-5 h-5 fill-amber-400 text-amber-400" />
                                 ))}
                             </div>
 
-                            <div className="relative mb-8">
-                                <Quote className="absolute -top-4 -left-4 w-12 h-12 text-blue-50 opacity-10 group-hover:scale-110 transition-transform" />
-                                <p className="text-gray-600 italic leading-relaxed relative z-10">
+                            <div className="relative mb-10">
+                                <Quote className="absolute -top-6 -left-6 w-16 h-16 text-blue-900/5 group-hover:text-amber-500/10 transition-colors" />
+                                <p className="text-gray-600 text-lg italic leading-relaxed relative z-10 font-medium">
                                     "{t.content}"
                                 </p>
                             </div>
 
-                            <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
-                                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full border-2 border-amber-400" />
+                            <div className="flex items-center gap-5 pt-8 border-t border-gray-50">
+                                <motion.div
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                    className="relative"
+                                >
+                                    <img src={t.avatar} alt={t.name} className="w-16 h-16 rounded-2xl border-4 border-amber-50 rounded-tr-[1.5rem] object-cover" />
+                                    <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-blue-600 rounded-full border-2 border-white flex items-center justify-center">
+                                        <Star className="w-3 h-3 text-white fill-white" />
+                                    </div>
+                                </motion.div>
                                 <div>
-                                    <h4 className="font-bold text-blue-900">{t.name}</h4>
-                                    <p className="text-sm text-gray-500">{t.role}</p>
+                                    <h4 className="font-black text-blue-900 text-lg">{t.name}</h4>
+                                    <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">{t.role}</p>
                                 </div>
                             </div>
                         </motion.div>

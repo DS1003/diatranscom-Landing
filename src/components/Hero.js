@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { motion } from "framer-motion"
 import {
     ArrowRight,
     Phone,
@@ -92,21 +93,24 @@ const Hero = () => {
             {/* Background Layer with cinematic zoom */}
             <div className="absolute inset-0">
                 {backgroundImages.map((image, index) => (
-                    <div
+                    <motion.div
                         key={index}
-                        className={`absolute inset-0 transition-opacity duration-[2500ms] ease-in-out ${currentSlide === index ? "opacity-100" : "opacity-0"
-                            }`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: currentSlide === index ? 1 : 0 }}
+                        transition={{ duration: 2.5, ease: "easeInOut" }}
+                        className="absolute inset-0"
                     >
-                        <div
-                            className={`absolute inset-0 transition-transform duration-[12000ms] ease-linear ${currentSlide === index ? "scale-110" : "scale-100"
-                                }`}
+                        <motion.div
+                            animate={{ scale: currentSlide === index ? 1.1 : 1 }}
+                            transition={{ duration: 12, ease: "linear" }}
+                            className="absolute inset-0"
                             style={{
                                 backgroundImage: `url(${image})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
                             }}
                         />
-                    </div>
+                    </motion.div>
                 ))}
 
                 {/* Advanced Multi-layered Overlays */}
@@ -119,32 +123,45 @@ const Hero = () => {
             <div className="relative z-10 h-full container mx-auto px-6 lg:px-16 flex flex-col justify-center">
                 <div className="max-w-5xl">
                     {/* Elegant Tagline */}
-                    <div
-                        className={`inline-flex items-center gap-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                            }`}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 1 }}
+                        className="inline-flex items-center gap-4"
                     >
                         <div className="w-16 h-[2px] bg-amber-500 rounded-full" />
                         <span className="text-amber-500 text-[11px] md:text-sm font-black tracking-[0.4em] uppercase">
                             BTP & Génie Civil au Sénégal
                         </span>
-                    </div>
+                    </motion.div>
 
                     {/* Architectural Typography */}
-                    <div className={`mt-8 space-y-6 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                        }`}>
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl text-white leading-[0.95] tracking-tight">
+                    <div className="mt-8 space-y-6">
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 1, delay: 0.3 }}
+                            className="text-5xl md:text-7xl lg:text-8xl text-white leading-[0.95] tracking-tight"
+                        >
                             <span className="font-extralight block">L'Excellence</span>
                             <span className="font-black">Construction Durable</span>
-                        </h1>
-                        <p className="text-lg md:text-xl text-slate-300/90 max-w-2xl font-light leading-relaxed border-l border-amber-500/30 pl-8">
+                        </motion.h1>
+                        <motion.p
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="text-lg md:text-xl text-slate-300/90 max-w-2xl font-light leading-relaxed border-l border-amber-500/30 pl-8"
+                        >
                             Solutions d'ingénierie avancées en assainissement et terrassement. Nous bâtissons l'avenir des infrastructures sénégalaises avec rigueur et innovation.
-                        </p>
+                        </motion.p>
                     </div>
 
                     {/* Integrated Action & Stats Area */}
-                    <div className={`mt-12 flex flex-col xl:flex-row items-start xl:items-center gap-12 transition-all duration-1000 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                        }`}>
-                        <button
+                    <div className="mt-12 flex flex-col xl:flex-row items-start xl:items-center gap-12">
+                        <motion.button
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={isVisible ? { opacity: 1, scale: 1 } : {}}
+                            transition={{ duration: 0.8, delay: 0.7 }}
                             onClick={() => scrollToSection('contact')}
                             className="group relative px-12 py-5 bg-amber-500 text-slate-950 font-black rounded-full transition-all duration-500 hover:scale-105 hover:bg-amber-400 overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.2)]"
                         >
@@ -153,10 +170,15 @@ const Hero = () => {
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
                             </span>
                             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                        </button>
+                        </motion.button>
 
                         {/* Premium Stats Glass Card */}
-                        <div className="grid grid-cols-3 gap-8 md:gap-16 p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 1, delay: 0.9 }}
+                            className="grid grid-cols-3 gap-8 md:gap-16 p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
+                        >
                             {stats.map((stat, i) => (
                                 <div key={i} className="space-y-1">
                                     <div className="text-3xl md:text-4xl font-black text-white leading-none">{stat.value}</div>
@@ -166,19 +188,23 @@ const Hero = () => {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
 
                 {/* Refined Navigation HUD */}
-                <div className={`absolute bottom-12 left-6 lg:left-16 transition-all duration-1000 delay-1000 ${isVisible ? "opacity-40 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={isVisible ? { opacity: 0.4 } : {}}
+                    transition={{ delay: 1.5 }}
+                    className="absolute bottom-12 left-6 lg:left-16"
+                >
                     <div className="flex flex-col gap-4 items-center">
                         <div className="w-[1px] h-12 bg-gradient-to-t from-white to-transparent" />
                         <span className="[writing-mode:vertical-rl] text-white text-[10px] tracking-[0.6em] uppercase font-black">Scroll</span>
                         <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             {/* Cinematic Slide Indicators */}
@@ -189,23 +215,24 @@ const Hero = () => {
                         <button
                             key={index}
                             className="relative h-1 transition-all duration-700 overflow-hidden rounded-full"
-                            style={{ width: currentSlide === index ? '60px' : '20px', backgroundColor: currentSlide === index ? 'rgba(245,158,11,0.3)' : 'rgba(255,255,255,0.1)' }}
+                            style={{
+                                width: currentSlide === index ? '60px' : '20px',
+                                backgroundColor: currentSlide === index ? 'rgba(245,158,11,0.3)' : 'rgba(255,255,255,0.1)'
+                            }}
                             onClick={() => setCurrentSlide(index)}
                         >
                             {currentSlide === index && (
-                                <div className="absolute inset-0 bg-amber-500 animate-[progress_8s_linear_infinite]" />
+                                <motion.div
+                                    initial={{ x: "-100%" }}
+                                    animate={{ x: "0%" }}
+                                    transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+                                    className="absolute inset-0 bg-amber-500"
+                                />
                             )}
                         </button>
                     ))}
                 </div>
             </div>
-
-            <style jsx>{`
-                @keyframes progress {
-                    from { transform: translateX(-100%); }
-                    to { transform: translateX(0); }
-                }
-            `}</style>
         </section>
     )
 }

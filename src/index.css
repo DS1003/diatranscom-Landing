@@ -25,6 +25,10 @@
         scroll-behavior: smooth;
     }
 
+    section[id] {
+        scroll-margin-top: 80px;
+    }
+
     /* Custom Premium Scrollbar */
     ::-webkit-scrollbar {
         width: 8px;

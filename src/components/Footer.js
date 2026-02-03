@@ -6,12 +6,24 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const scrollToSection = (sectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const headerHeight = 80;
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: elementPosition - headerHeight,
+                behavior: "smooth",
+            });
+        }
+    };
+
     return (
         <footer className="bg-slate-950 text-slate-300 pt-20 pb-10 relative overflow-hidden">
             {/* Decorative background */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-900 via-amber-400 to-blue-900"></div>
 
-            <div className="container mx-auto px-6 lg:px-16 relative z-10">
+            <div className="container mx-auto px-4 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     {/* Brand Column */}
                     <div className="space-y-6">
@@ -38,12 +50,21 @@ const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold text-lg mb-8 uppercase tracking-widest text-sm">Navigation</h4>
                         <ul className="space-y-4">
-                            {['Accueil', 'À Propos', 'Services', 'Témoignages', 'Contact'].map((item, i) => (
+                            {[
+                                { name: 'Accueil', id: 'accueil' },
+                                { name: 'À Propos', id: 'about' },
+                                { name: 'Services', id: 'services' },
+                                { name: 'Témoignages', id: 'testimonials' },
+                                { name: 'Contact', id: 'contact' }
+                            ].map((item, i) => (
                                 <li key={i}>
-                                    <a href={`#${item.toLowerCase().replace(' ', '-')}`} className="hover:text-amber-400 transition-colors flex items-center gap-2 group">
+                                    <button
+                                        onClick={() => scrollToSection(item.id)}
+                                        className="hover:text-amber-400 transition-colors flex items-center gap-2 group text-left"
+                                    >
                                         <span className="w-1.5 h-1.5 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                                        {item}
-                                    </a>
+                                        {item.name}
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -55,10 +76,13 @@ const Footer = () => {
                         <ul className="space-y-4">
                             {['Assainissement', 'Terrassement', 'Enrochement', 'Génie Civil', 'BTP Premium'].map((item, i) => (
                                 <li key={i}>
-                                    <a href="#services" className="hover:text-amber-400 transition-colors flex items-center gap-2 group">
+                                    <button
+                                        onClick={() => scrollToSection('services')}
+                                        className="hover:text-amber-400 transition-colors flex items-center gap-2 group text-left"
+                                    >
                                         <span className="w-1.5 h-1.5 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                                         {item}
-                                    </a>
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -74,11 +98,11 @@ const Footer = () => {
                             </div>
                             <div className="flex items-start gap-4">
                                 <Phone className="w-6 h-6 text-amber-400 shrink-0" />
-                                <p>+221 76 143 18 07</p>
+                                <a href="tel:+221761431807" className="hover:text-white transition-colors">+221 76 143 18 07</a>
                             </div>
                             <div className="flex items-start gap-4">
                                 <Mail className="w-6 h-6 text-amber-400 shrink-0" />
-                                <p>contact@diatranscom.sn</p>
+                                <a href="mailto:contact@diatranscom.sn" className="hover:text-white transition-colors">contact@diatranscom.sn</a>
                             </div>
                         </div>
                     </div>

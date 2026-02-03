@@ -4,119 +4,175 @@ import { Mail, Phone, MapPin, Send, Facebook, Linkedin, Instagram, Twitter } fro
 
 const Contact = () => {
     return (
-        <section id="contact" className="py-24 bg-white">
-            <div className="container mx-auto px-6 lg:px-16">
-                <div className="flex flex-col lg:flex-row gap-16">
-                    {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="lg:w-1/3"
-                    >
-                        <div className="inline-block px-4 py-2 bg-blue-50 text-blue-600 font-bold rounded-lg mb-6 tracking-wider uppercase text-sm">
-                            Contactez-nous
-                        </div>
-                        <h2 className="text-4xl font-bold text-blue-900 mb-8">Parlons de votre <span className="text-amber-500">Projet</span></h2>
-                        <p className="text-gray-600 mb-12 text-lg leading-relaxed">
-                            Que vous ayez une question ou que vous souhaitiez démarrer une collaboration, notre équipe est là pour vous répondre.
-                        </p>
+        <section id="contact" className="py-24 bg-slate-50 relative overflow-hidden">
+            {/* Background Decorative Elements */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-40">
+                <motion.div
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 90, 0],
+                        x: [0, 50, 0],
+                        y: [0, 30, 0]
+                    }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-blue-100/30 rounded-full blur-[100px]"
+                />
+                <motion.div
+                    animate={{
+                        scale: [1, 1.1, 1],
+                        rotate: [0, -90, 0],
+                        x: [0, -30, 0],
+                        y: [0, 50, 0]
+                    }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                    className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-amber-100/30 rounded-full blur-[100px]"
+                />
+            </div>
 
-                        <div className="space-y-8">
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="flex flex-col lg:flex-row gap-20 items-stretch">
+                    {/* Contact Info Side */}
+                    <div className="lg:w-5/12 flex flex-col justify-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600/10 text-blue-700 font-black rounded-full mb-8 tracking-widest uppercase text-xs"
+                        >
+                            <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
+                            Contactez-nous
+                        </motion.div>
+
+                        <motion.h2
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="text-5xl md:text-7xl font-black text-blue-950 mb-8 leading-[1.1]"
+                        >
+                            Parlons de votre <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-600">Projet</span>
+                        </motion.h2>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="text-slate-500 text-xl font-medium leading-relaxed mb-12 max-w-lg"
+                        >
+                            Que vous soyez au stade de l'idée ou prêt à lancer votre chantier,
+                            notre équipe d'experts est prête à vous accompagner.
+                        </motion.p>
+
+                        <div className="space-y-6">
                             {[
-                                { icon: Phone, color: 'amber', title: 'Téléphone', detail: '+221 76 143 18 07', sub: 'Lun-Ven 8h00 - 18h00' },
-                                { icon: Mail, color: 'blue', title: 'Email', detail: 'contact@diatranscom.sn', sub: 'Réponse sous 24h' },
-                                { icon: MapPin, color: 'green', title: 'Localisation', detail: 'Keur Massar, Dakar, Sénégal', sub: 'Siège Social' }
+                                { icon: Phone, color: 'amber', title: 'Téléphone Hotline', detail: '+221 76 143 18 07', sub: 'Disponible 24/7 pour les urgences' },
+                                { icon: Mail, color: 'blue', title: 'Support Email', detail: 'contact@diatranscom.sn', sub: 'Réponse garantie sous 12h' },
+                                { icon: MapPin, color: 'slate', title: 'Nos Bureaux', detail: 'Keur Massar, Dakar, Sénégal', sub: 'Direction Générale' }
                             ].map((item, idx) => (
                                 <motion.div
                                     key={idx}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, x: -30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: 0.2 + (idx * 0.1) }}
-                                    className="flex items-start gap-6 group"
+                                    transition={{ delay: 0.3 + (idx * 0.1) }}
+                                    whileHover={{ x: 10 }}
+                                    className="flex items-center gap-6 p-6 rounded-3xl bg-white/50 backdrop-blur-md border border-white hover:bg-white hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-500 group"
                                 >
-                                    <div className={`w-14 h-14 bg-${item.color}-50 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-${item.color}-600 group-hover:text-white transition-all duration-300`}>
-                                        <item.icon className={`w-6 h-6 text-${item.color}-600 group-hover:text-white`} />
+                                    <div className={`w-16 h-16 bg-${item.color}-500 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg shadow-${item.color}-500/20`}>
+                                        <item.icon className="w-7 h-7 text-white" />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-blue-900 text-lg mb-1">{item.title}</h4>
-                                        <p className="text-gray-500 text-lg">{item.detail}</p>
-                                        <p className="text-gray-400 text-sm">{item.sub}</p>
+                                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">{item.title}</p>
+                                        <h4 className="font-black text-blue-950 text-xl mb-0.5">{item.detail}</h4>
+                                        <p className="text-slate-500 text-sm font-medium">{item.sub}</p>
                                     </div>
                                 </motion.div>
                             ))}
                         </div>
 
-                        <div className="mt-12">
-                            <h4 className="font-bold text-blue-900 mb-6">Suivez-nous</h4>
-                            <div className="flex gap-4">
+                        <div className="mt-12 flex items-center gap-8">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Connectons-nous :</span>
+                            <div className="flex gap-3">
                                 {[Facebook, Linkedin, Instagram, Twitter].map((Icon, i) => (
                                     <motion.a
                                         key={i}
                                         href="#"
-                                        whileHover={{ y: -3, scale: 1.1 }}
-                                        className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-blue-900 hover:text-white transition-all shadow-sm"
+                                        whileHover={{ y: -5, scale: 1.1, backgroundColor: '#1e3a8a', color: '#fff' }}
+                                        className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 transition-all shadow-sm"
                                     >
                                         <Icon className="w-5 h-5" />
                                     </motion.a>
                                 ))}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Contact Form */}
+                    {/* Form Side */}
                     <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="lg:w-2/3"
+                        transition={{ duration: 0.8 }}
+                        className="lg:w-7/12"
                     >
-                        <div className="bg-gray-50 p-8 md:p-12 rounded-[2.5rem] border border-gray-100 shadow-xl shadow-gray-100">
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-blue-900 uppercase tracking-wider ml-1">Nom Complet</label>
-                                        <input type="text" className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all" placeholder="Votre nom" />
+                        <div className="bg-white p-8 md:p-14 rounded-[3.5rem] shadow-2xl shadow-blue-900/10 border border-blue-50 relative overflow-hidden group">
+                            {/* Decorative line in form */}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-1000"></div>
+
+                            <form className="relative z-10 space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-3">
+                                        <label className="text-sm font-black text-blue-950 uppercase tracking-tighter ml-1">Nom & Prénom</label>
+                                        <input type="text" className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[1.5rem] focus:outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 focus:ring-blue-600/5 transition-all text-blue-950 font-medium placeholder:text-slate-400" placeholder="Jean Dupont" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-blue-900 uppercase tracking-wider ml-1">Email</label>
-                                        <input type="email" className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all" placeholder="votre@email.com" />
+                                    <div className="space-y-3">
+                                        <label className="text-sm font-black text-blue-950 uppercase tracking-tighter ml-1">Adresse Email</label>
+                                        <input type="email" className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[1.5rem] focus:outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 focus:ring-blue-600/5 transition-all text-blue-950 font-medium placeholder:text-slate-400" placeholder="jean@exemple.com" />
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-blue-900 uppercase tracking-wider ml-1">Téléphone</label>
-                                        <input type="tel" className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all" placeholder="+221 ..." />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-3">
+                                        <label className="text-sm font-black text-blue-950 uppercase tracking-tighter ml-1">Numéro de Téléphone</label>
+                                        <input type="tel" className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[1.5rem] focus:outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 focus:ring-blue-600/5 transition-all text-blue-950 font-medium placeholder:text-slate-400" placeholder="+221 7X XXX XX XX" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-blue-900 uppercase tracking-wider ml-1">Sujet</label>
-                                        <select className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all appearance-none cursor-pointer">
-                                            <option>Devis Travaux</option>
-                                            <option>Conseil Technique</option>
-                                            <option>Recrutement</option>
-                                            <option>Autre</option>
-                                        </select>
+                                    <div className="space-y-3">
+                                        <label className="text-sm font-black text-blue-950 uppercase tracking-tighter ml-1">Service Intéressé</label>
+                                        <div className="relative">
+                                            <select className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[1.5rem] focus:outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 focus:ring-blue-600/5 transition-all text-blue-950 font-bold appearance-none cursor-pointer">
+                                                <option>Assainissement & VRD</option>
+                                                <option>Terrassement & Excavation</option>
+                                                <option>Génie Civil & BTP</option>
+                                                <option>Expertise Conseil</option>
+                                                <option>Autre</option>
+                                            </select>
+                                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
+                                                <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-blue-900/30"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-blue-900 uppercase tracking-wider ml-1">Message</label>
-                                    <textarea rows="5" className="w-full px-6 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all resize-none" placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                                <div className="space-y-3">
+                                    <label className="text-sm font-black text-blue-950 uppercase tracking-tighter ml-1">Détails de votre Message</label>
+                                    <textarea rows="4" className="w-full px-8 py-5 bg-slate-50 border-2 border-transparent rounded-[1.5rem] focus:outline-none focus:bg-white focus:border-blue-600/20 focus:ring-4 focus:ring-blue-600/5 transition-all text-blue-950 font-medium placeholder:text-slate-400 resize-none" placeholder="Décrivez brièvement votre projet..."></textarea>
                                 </div>
 
                                 <motion.button
                                     type="submit"
-                                    whileHover={{ scale: 1.02 }}
+                                    whileHover={{ scale: 1.02, boxShadow: '0 20px 40px -10px rgba(30, 58, 138, 0.3)' }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="w-full py-5 bg-blue-900 hover:bg-blue-800 text-white font-bold text-lg rounded-2xl transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-900/10"
+                                    className="w-full py-6 bg-gradient-to-r from-blue-900 to-blue-950 text-white font-black text-xl rounded-[1.5rem] transition-all flex items-center justify-center gap-4 group/btn"
                                 >
-                                    <Send className="w-5 h-5" />
-                                    Envoyer le Message
+                                    <span>Envoyer ma demande</span>
+                                    <Send className="w-6 h-6 group-hover/btn:translate-x-2 group-hover/btn:-translate-y-2 transition-transform duration-300" />
                                 </motion.button>
+
+                                <p className="text-center text-slate-400 text-xs font-bold uppercase tracking-widest">
+                                    En envoyant ce formulaire, vous acceptez notre politique de confidentialité.
+                                </p>
                             </form>
                         </div>
                     </motion.div>

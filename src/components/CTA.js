@@ -17,7 +17,7 @@ const CTA = () => {
 
     return (
         <section id="cta" className="py-20 relative overflow-hidden">
-            <div className="container mx-auto px-6 lg:px-16">
+            <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
