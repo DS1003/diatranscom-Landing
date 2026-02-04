@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Info, Briefcase, MessageSquare, Phone } from 'lucide-react';
 
+const navItems = [
+    { id: 'accueil', icon: Home, label: 'Accueil' },
+    { id: 'about', icon: Info, label: 'À propos' },
+    { id: 'services', icon: Briefcase, label: 'Services' },
+    { id: 'testimonials', icon: MessageSquare, label: 'Avis' },
+    { id: 'contact', icon: Phone, label: 'Contact' }
+];
+
 const MobileNav = () => {
     const [activeSection, setActiveSection] = useState("accueil");
-
-    const navItems = [
-        { id: 'accueil', icon: Home, label: 'Accueil' },
-        { id: 'about', icon: Info, label: 'À propos' },
-        { id: 'services', icon: Briefcase, label: 'Services' },
-        { id: 'testimonials', icon: MessageSquare, label: 'Avis' },
-        { id: 'contact', icon: Phone, label: 'Contact' }
-    ];
 
     useEffect(() => {
         const handleScroll = () => {
