@@ -88,7 +88,7 @@ const Header = () => {
     return (
         <>
             <header
-                className={`fixed top-0 w-full z-50 transition-all duration-300 md:hidden ${isScrolled
+                className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
                     ? "bg-white/90 backdrop-blur-xl border-b border-gray-200/60 shadow-lg shadow-blue-900/5"
                     : "bg-transparent"
                     }`}
@@ -123,7 +123,7 @@ const Header = () => {
 
             <AnimatePresence mode="wait">
                 {isMenuOpen && (
-                    <div className="fixed inset-0 z-[100] md:hidden">
+                    <div className="fixed inset-0 z-[100]">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
