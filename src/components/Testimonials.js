@@ -24,7 +24,15 @@ const Testimonials = () => {
         }
     ];
 
-
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2
+            }
+        }
+    };
 
     const itemVariants = {
         hidden: { opacity: 0, scale: 0.9 },
@@ -87,7 +95,13 @@ const Testimonials = () => {
                     </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 overflow-x-auto pb-8 md:pb-0 scrollbar-hide md:grid scroll-smooth snap-x snap-mandatory">
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 overflow-x-auto pb-8 md:pb-0 scrollbar-hide md:grid scroll-smooth snap-x snap-mandatory"
+                >
                     {testimonials.map((t, i) => (
                         <motion.div
                             key={i}
@@ -126,7 +140,7 @@ const Testimonials = () => {
                             </div>
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
 
                 {/* Mobile indicators */}
                 <div className="flex justify-center gap-2 mt-4 md:hidden">

@@ -1,36 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 import { Home, Info, Briefcase, MessageSquare, Phone } from 'lucide-react';
 
-const navItems = [
-    { id: 'accueil', icon: Home, label: 'Accueil' },
-    { id: 'about', icon: Info, label: 'À propos' },
-    { id: 'services', icon: Briefcase, label: 'Services' },
-    { id: 'testimonials', icon: MessageSquare, label: 'Avis' },
-    { id: 'contact', icon: Phone, label: 'Contact' }
-];
-
 const MobileNav = () => {
-    const [activeSection, setActiveSection] = useState("accueil");
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const sections = navItems.map(item => item.id);
-            const currentSection = sections.find((section) => {
-                const element = document.getElementById(section);
-                if (!element) return false;
-                const rect = element.getBoundingClientRect();
-                return rect.top <= 300 && rect.bottom >= 300;
-            });
-
-            if (currentSection) {
-                setActiveSection(currentSection);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    const navItems = [
+        { id: 'accueil', icon: Home, label: 'Accueil' },
+        { id: 'about', icon: Info, label: 'À propos' },
+        { id: 'services', icon: Briefcase, label: 'Services' },
+        { id: 'testimonials', icon: MessageSquare, label: 'Avis' },
+        { id: 'contact', icon: Phone, label: 'Contact' }
+    ];
 
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
@@ -45,48 +23,23 @@ const MobileNav = () => {
     };
 
     return (
-        <div className="fixed bottom-6 left-0 right-0 z-[100] md:hidden flex justify-center px-4">
-            <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="bg-slate-900/90 backdrop-blur-2xl border border-white/10 px-2 py-2 rounded-[2rem] flex items-center gap-1 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
-            >
-                {navItems.map((item, idx) => {
-                    const isActive = activeSection === item.id;
-                    return (
-                        <button
-                            key={idx}
-                            onClick={() => scrollToSection(item.id)}
-                            className="relative flex flex-col items-center justify-center w-16 h-14 transition-all duration-300 rounded-2xl group overflow-hidden"
-                        >
-                            <AnimatePresence>
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeNavBg"
-                                        className="absolute inset-2 bg-amber-500 rounded-2xl shadow-[0_0_20px_rgba(245,158,11,0.3)]"
-                                        initial={{ scale: 0.8, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        exit={{ scale: 0.8, opacity: 0 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                    />
-                                )}
-                            </AnimatePresence>
-
-                            <div className="relative z-10 flex flex-col items-center">
-                                <item.icon className={`w-5 h-5 transition-all duration-300 ${isActive ? 'text-slate-950 scale-110' : 'text-white/60 group-hover:text-white'}`} />
-                                <span className={`text-[8px] font-black uppercase tracking-tighter mt-1 transition-all duration-300 ${isActive ? 'text-slate-950 translate-y-0.5' : 'text-white/40 group-hover:text-white/60'}`}>
-                                    {item.label}
-                                </span>
-                            </div>
-
-                            {/* Active dot indicator if not the active background */}
-                            {!isActive && (
-                                <div className="absolute bottom-1.5 w-1 h-1 rounded-full bg-white/10 group-hover:bg-white/30 transition-colors" />
-                            )}
-                        </button>
-                    )
-                })}
-            </motion.div>
+        <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden">
+            <div className="bg-white/80 backdrop-blur-xl border-t border-gray-100 px-6 py-3 pb-safe flex justify-between items-center shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+                {navItems.map((item, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => scrollToSection(item.id)}
+                        className="flex flex-col items-center gap-1 group"
+                    >
+                        <div className="p-1 rounded-lg group-active:scale-95 transition-transform">
+                            <item.icon className="w-6 h-6 text-slate-500 group-hover:text-blue-600 transition-colors" />
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter group-hover:text-blue-600 transition-colors">
+                            {item.label}
+                        </span>
+                    </button>
+                ))}
+            </div>
         </div>
     );
 };

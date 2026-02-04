@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X, Phone, Mail, ArrowRight } from "lucide-react"
 
 const Header = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const [activeSection, setActiveSection] = useState("accueil")
 
@@ -45,6 +46,7 @@ const Header = () => {
                 behavior: "smooth",
             });
         }
+        setIsMenuOpen(false)
     }
 
     const navItems = [
@@ -55,62 +57,159 @@ const Header = () => {
         { id: "contact", label: "Contact" },
     ]
 
+    const menuVariants = {
+        closed: {
+            x: "100%",
+            transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 40,
+                staggerChildren: 0.05,
+                staggerDirection: -1
+            }
+        },
+        open: {
+            x: 0,
+            transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 40,
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    }
+
+    const itemVariants = {
+        closed: { opacity: 0, x: 20 },
+        open: { opacity: 1, x: 0 }
+    }
+
     return (
-        <header
-            className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 sm:p-6 transition-all duration-500 pointer-events-none"
-        >
-            <motion.div
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className={`flex items-center justify-between w-full max-w-6xl px-6 py-3 rounded-full border pointer-events-auto transition-all duration-500 ${isScrolled
-                    ? "bg-white/80 backdrop-blur-xl border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.06)] scale-95 sm:scale-100"
-                    : "bg-white/40 backdrop-blur-md border-white/10"
+        <>
+            <header
+                className={`fixed top-0 w-full z-50 transition-all duration-300 md:hidden ${isScrolled
+                    ? "bg-white/90 backdrop-blur-xl border-b border-gray-200/60 shadow-lg shadow-blue-900/5"
+                    : "bg-transparent"
                     }`}
             >
-                {/* Logo */}
-                <a
-                    href="#accueil"
-                    onClick={(e) => scrollToSection(e, "accueil")}
-                    className="flex-shrink-0 transition-transform active:scale-95"
-                >
-                    <img
-                        src="https://res.cloudinary.com/dgro5x4h8/image/upload/v1747407214/Logo_Master_1_mxvijk.png"
-                        alt="DIA TRANSCOM"
-                        className="h-8 sm:h-10 object-contain"
-                    />
-                </a>
-
-                {/* Desktop Nav - Hidden on mobile, rely on Bottom Nav instead */}
-                <nav className="hidden lg:flex items-center gap-1 bg-slate-100/30 p-1 rounded-full border border-white/20">
-                    {navItems.map((item) => (
+                <div className="max-w-[1440px] mx-auto px-6">
+                    <div className="flex items-center justify-between h-20">
                         <a
-                            key={item.id}
-                            href={`#${item.id}`}
-                            onClick={(e) => scrollToSection(e, item.id)}
-                            className={`relative px-5 py-2 text-sm font-black transition-all duration-300 rounded-full ${activeSection === item.id
-                                ? "text-blue-900 bg-white shadow-sm"
-                                : "text-slate-500 hover:text-blue-900"
-                                }`}
+                            href="#accueil"
+                            onClick={(e) => scrollToSection(e, "accueil")}
+                            className="flex-shrink-0 transition-transform active:scale-95"
                         >
-                            {item.label}
+                            <img
+                                src="https://res.cloudinary.com/dgro5x4h8/image/upload/v1747407214/Logo_Master_1_mxvijk.png"
+                                alt="DIA TRANSCOM"
+                                className={`object-contain transition-all duration-300 ${isScrolled ? "h-10" : "h-12"}`}
+                            />
                         </a>
-                    ))}
-                </nav>
 
-                {/* Right Action */}
-                <div className="flex items-center gap-2">
-                    <a
-                        href="#contact"
-                        onClick={(e) => scrollToSection(e, "contact")}
-                        className="flex items-center gap-2 bg-blue-900 hover:bg-blue-800 text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-black transition-all active:scale-95 shadow-lg shadow-blue-900/10"
-                    >
-                        <span className="hidden sm:inline">Devis Gratuit</span>
-                        <span className="sm:hidden">Devis</span>
-                        <ArrowRight className="w-4 h-4 text-amber-500" />
-                    </a>
+                        <div className="flex items-center gap-4">
+                            <motion.button
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                className="p-3 rounded-2xl bg-white shadow-sm border border-gray-100 text-slate-900"
+                                aria-label="Menu"
+                            >
+                                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </motion.button>
+                        </div>
+                    </div>
                 </div>
-            </motion.div>
-        </header>
+            </header>
+
+            <AnimatePresence mode="wait">
+                {isMenuOpen && (
+                    <div className="fixed inset-0 z-[100] md:hidden">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+                            onClick={() => setIsMenuOpen(false)}
+                        />
+                        <motion.div
+                            variants={menuVariants}
+                            initial="closed"
+                            animate="open"
+                            exit="closed"
+                            className="absolute top-0 right-0 w-full max-w-[320px] h-full bg-white shadow-2xl flex flex-col"
+                        >
+                            <div className="flex items-center justify-between p-6 border-b border-slate-50">
+                                <img
+                                    src="https://res.cloudinary.com/dgro5x4h8/image/upload/v1747407214/Logo_Master_1_mxvijk.png"
+                                    alt="DIA TRANSCOM"
+                                    className="h-10 object-contain"
+                                />
+                                <motion.button
+                                    whileTap={{ scale: 0.9, rotate: 90 }}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="p-3 rounded-2xl bg-slate-50 text-slate-900"
+                                >
+                                    <X className="w-6 h-6" />
+                                </motion.button>
+                            </div>
+
+                            <nav className="p-8 flex-1 overflow-y-auto space-y-3">
+                                {navItems.map((item) => (
+                                    <motion.a
+                                        variants={itemVariants}
+                                        key={item.id}
+                                        href={`#${item.id}`}
+                                        onClick={(e) => scrollToSection(e, item.id)}
+                                        className={`block w-full text-left px-6 py-4 rounded-2xl text-lg font-black transition-all ${activeSection === item.id
+                                            ? "bg-blue-900 text-white shadow-xl shadow-blue-900/20"
+                                            : "text-slate-600 hover:bg-slate-50"
+                                            }`}
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <span>{item.label}</span>
+                                            {activeSection === item.id && <div className="w-2 h-2 bg-amber-500 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.5)]" />}
+                                        </div>
+                                    </motion.a>
+                                ))}
+
+                                <motion.div variants={itemVariants} className="pt-10 flex flex-col gap-4">
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4">Support & Contact</p>
+                                    <a
+                                        href="tel:+221761431807"
+                                        className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 text-slate-700 active:scale-95 transition-all"
+                                    >
+                                        <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center">
+                                            <Phone className="w-5 h-5 text-amber-500" />
+                                        </div>
+                                        <span className="text-sm font-bold">+221 76 143 18 07</span>
+                                    </a>
+                                    <a
+                                        href="mailto:contact@diatranscom.sn"
+                                        className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 text-slate-700 active:scale-95 transition-all"
+                                    >
+                                        <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center">
+                                            <Mail className="w-5 h-5 text-blue-600" />
+                                        </div>
+                                        <span className="text-sm font-bold truncate">contact@diatranscom.sn</span>
+                                    </a>
+                                </motion.div>
+                            </nav>
+
+                            <motion.div variants={itemVariants} className="p-8 pt-0">
+                                <a
+                                    href="#contact"
+                                    onClick={(e) => scrollToSection(e, "contact")}
+                                    className="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 px-6 py-5 rounded-2xl text-lg font-black transition-all active:scale-95 flex items-center justify-center gap-3 shadow-xl shadow-amber-500/20"
+                                >
+                                    <span>Devis Gratuit</span>
+                                    <ArrowRight className="w-5 h-5" />
+                                </a>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+        </>
     )
 }
 
