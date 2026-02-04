@@ -7,10 +7,12 @@ import Contact from './components/Contact';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import About from './components/About';
+import Meta from './components/Meta';
 
 function App() {
   return (
     <div className="relative overflow-x-hidden">
+      <Meta />
       <main>
         <Header />
         <Hero />
