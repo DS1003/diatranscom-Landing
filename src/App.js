@@ -8,13 +8,15 @@ import CTA from './components/CTA';
 import Footer from './components/Footer';
 import About from './components/About';
 import Meta from './components/Meta';
+import MobileNav from './components/MobileNav';
 
 function App() {
   return (
     <div className="relative overflow-x-hidden">
       <Meta />
+      <Header />
+      <MobileNav />
       <main>
-        <Header />
         <Hero />
         <About />
         <Services />

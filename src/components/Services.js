@@ -167,7 +167,7 @@ const Services = () => {
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
-              className="bg-white rounded-[2.5rem] p-9 shadow-xl shadow-blue-900/5 group relative overflow-hidden border border-transparent hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-shadow duration-500"
+              className="bg-white rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-9 shadow-xl shadow-blue-900/5 group relative overflow-hidden border border-transparent hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-shadow duration-500"
             >
               <motion.div
                 whileHover={{ rotate: 12, scale: 1.1 }}
@@ -225,16 +225,16 @@ const Services = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="mt-24 bg-blue-900 rounded-[3rem] p-8 md:p-12 relative overflow-hidden shadow-2xl"
+          className="mt-24 bg-blue-900 rounded-[2rem] sm:rounded-[3rem] p-6 md:p-12 relative overflow-hidden shadow-2xl"
         >
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="text-center md:text-left">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div className="">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Un projet spécifique en tête ?</h3>
               <p className="text-blue-300">Nos ingénieurs sont prêts à relever tous les défis.</p>
             </div>
             <button
               onClick={scrollToContact}
-              className="px-8 py-4 bg-amber-400 hover:bg-amber-500 text-blue-900 font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-xl shadow-amber-400/20"
+              className="w-full md:w-auto px-8 py-4 bg-amber-400 hover:bg-amber-500 text-blue-900 font-bold rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-xl shadow-amber-400/20"
             >
               Discuter avec un expert
             </button>

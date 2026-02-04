@@ -98,7 +98,7 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={isVisible ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 1, delay: 0.3 }}
-                            className="text-5xl md:text-7xl lg:text-8xl text-white leading-[0.95] tracking-tight"
+                            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white leading-[0.95] tracking-tight"
                         >
                             <span className="font-extralight block">L'Excellence</span>
                             <span className="font-black">Construction Durable</span>
@@ -120,9 +120,9 @@ const Hero = () => {
                             animate={isVisible ? { opacity: 1, scale: 1 } : {}}
                             transition={{ duration: 0.8, delay: 0.7 }}
                             onClick={() => scrollToSection('contact')}
-                            className="group relative px-12 py-5 bg-amber-500 text-slate-950 font-black rounded-full transition-all duration-500 hover:scale-105 hover:bg-amber-400 overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.2)]"
+                            className="group relative w-full sm:w-auto px-12 py-5 bg-amber-500 text-slate-950 font-black rounded-full transition-all duration-500 hover:scale-105 hover:bg-amber-400 overflow-hidden shadow-[0_0_40px_rgba(245,158,11,0.2)]"
                         >
-                            <span className="relative z-10 flex items-center gap-3">
+                            <span className="relative z-10 flex items-center justify-center gap-3">
                                 Démarrer votre projet
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
                             </span>
@@ -134,11 +134,11 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={isVisible ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 1, delay: 0.9 }}
-                            className="grid grid-cols-3 gap-8 md:gap-16 p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
+                            className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-16 p-6 sm:p-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl w-full"
                         >
                             {stats.map((stat, i) => (
-                                <div key={i} className="space-y-1">
-                                    <div className="text-3xl md:text-4xl font-black text-white leading-none">{stat.value}</div>
+                                <div key={i} className={`space-y-1 ${i === 2 ? 'col-span-2 sm:col-span-1 border-t sm:border-t-0 border-white/10 pt-4 sm:pt-0' : ''}`}>
+                                    <div className="text-3xl md:text-4xl font-black text-white leading-none tracking-tight">{stat.value}</div>
                                     <div className="text-[10px] text-slate-400 uppercase tracking-[0.2em] leading-tight font-bold">
                                         <span className="block text-amber-500/80">{stat.label}</span>
                                         {stat.subLabel}

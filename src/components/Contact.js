@@ -48,9 +48,9 @@ const Contact = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
-                            className="text-5xl md:text-7xl font-black text-blue-950 mb-8 leading-[1.1]"
+                            className="text-4xl md:text-5xl lg:text-7xl font-black text-blue-950 mb-8 leading-[1.1]"
                         >
-                            Parlons de votre <br />
+                            Parlons de votre <br className="hidden sm:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-amber-600">Projet</span>
                         </motion.h2>
 
@@ -92,17 +92,17 @@ const Contact = () => {
                             ))}
                         </div>
 
-                        <div className="mt-12 flex items-center gap-8">
-                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Connectons-nous :</span>
+                        <div className="mt-12 flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                            <span className="text-xs font-black text-slate-400 uppercase tracking-widest text-center sm:text-left">Connectons-nous :</span>
                             <div className="flex gap-3">
                                 {[Facebook, Linkedin, Instagram, Twitter].map((Icon, i) => (
                                     <motion.a
                                         key={i}
                                         href="#!"
                                         whileHover={{ y: -5, scale: 1.1, backgroundColor: '#1e3a8a', color: '#fff' }}
-                                        className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 transition-all shadow-sm"
+                                        className="w-12 h-12 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 transition-all shadow-sm"
                                     >
-                                        <Icon className="w-5 h-5" />
+                                        <Icon className="w-6 h-6" />
                                     </motion.a>
                                 ))}
                             </div>
@@ -117,7 +117,7 @@ const Contact = () => {
                         transition={{ duration: 0.8 }}
                         className="lg:w-7/12"
                     >
-                        <div className="bg-white p-8 md:p-14 rounded-[3.5rem] shadow-2xl shadow-blue-900/10 border border-blue-50 relative overflow-hidden group">
+                        <div className="bg-white p-6 sm:p-14 rounded-[2.5rem] sm:rounded-[3.5rem] shadow-2xl shadow-blue-900/10 border border-blue-50 relative overflow-hidden group">
                             {/* Decorative line in form */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-1000"></div>
 

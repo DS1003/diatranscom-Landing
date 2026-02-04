@@ -202,10 +202,10 @@ const Header = () => {
                             <a
                                 href="#contact"
                                 onClick={(e) => scrollToSection(e, "contact")}
-                                className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white px-6 py-3.5 rounded-lg text-base font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
+                                className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white px-6 py-4 rounded-xl text-lg font-bold transition-all active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-amber-600/20"
                             >
                                 <span>Demander un Devis</span>
-                                <ArrowRight className="w-5 h-5" />
+                                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                             </a>
                         </nav>
                     </div>
