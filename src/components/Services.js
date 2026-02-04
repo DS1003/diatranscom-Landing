@@ -7,7 +7,6 @@ import {
   Building2,
   HardHat,
   ClipboardCheck,
-  ChevronRight,
   ArrowRight
 } from 'lucide-react';
 

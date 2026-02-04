@@ -98,7 +98,7 @@ const Contact = () => {
                                 {[Facebook, Linkedin, Instagram, Twitter].map((Icon, i) => (
                                     <motion.a
                                         key={i}
-                                        href="#"
+                                        href="#!"
                                         whileHover={{ y: -5, scale: 1.1, backgroundColor: '#1e3a8a', color: '#fff' }}
                                         className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 transition-all shadow-sm"
                                     >

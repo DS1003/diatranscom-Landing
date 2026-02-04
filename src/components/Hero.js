@@ -4,52 +4,9 @@ import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import {
     ArrowRight,
-    Phone,
-    MapPin,
-    TrendingUp,
-    Award,
-    Users,
-    CheckCircle2,
-    Clock,
-    Shield,
-    Wrench,
-    Hammer,
-    Building2,
-    ClipboardList,
-    Sparkles,
 } from "lucide-react"
 
-const AnimatedCounter = ({ value, suffix, isVisible }) => {
-    const [count, setCount] = useState(0)
 
-    useEffect(() => {
-        if (!isVisible) return
-
-        const duration = 2000
-        const steps = 60
-        const increment = value / steps
-        let current = 0
-
-        const timer = setInterval(() => {
-            current += increment
-            if (current >= value) {
-                setCount(value)
-                clearInterval(timer)
-            } else {
-                setCount(Math.floor(current))
-            }
-        }, duration / steps)
-
-        return () => clearInterval(timer)
-    }, [isVisible, value])
-
-    return (
-        <span className="text-xl sm:text-2xl lg:text-3xl font-black">
-            {count}
-            {suffix}
-        </span>
-    )
-}
 
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0)

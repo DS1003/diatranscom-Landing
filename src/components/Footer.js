@@ -39,7 +39,7 @@ const Footer = () => {
                         </p>
                         <div className="flex gap-4">
                             {[Facebook, Linkedin, Instagram, Twitter].map((Icon, i) => (
-                                <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-all border border-white/10">
+                                <a key={i} href="#!" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-all border border-white/10">
                                     <Icon className="w-5 h-5" />
                                 </a>
                             ))}
@@ -115,8 +115,8 @@ const Footer = () => {
                     </p>
 
                     <div className="flex gap-8 text-sm text-slate-500 lowercase">
-                        <a href="#" className="hover:text-white transition-colors">Mentions Légales</a>
-                        <a href="#" className="hover:text-white transition-colors">Politique de Confidentialité</a>
+                        <a href="#!" className="hover:text-white transition-colors">Mentions Légales</a>
+                        <a href="#!" className="hover:text-white transition-colors">Politique de Confidentialité</a>
                     </div>
 
                     <button
