@@ -1,0 +1,8 @@
+import { getProjects } from "@/actions/project-actions";
+import { ProjectsClient } from "@/components/admin/projects-client";
+
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+
+  return <ProjectsClient projects={projects} />;
+}
