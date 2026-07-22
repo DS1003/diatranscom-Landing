@@ -1,24 +1,24 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { prisma } from "@/lib/prisma";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+export const dynamic = "force-dynamic";
 
 export default async function PublicLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const rawSettings = await prisma.setting.findMany();
-  const settings = rawSettings.reduce((acc: any, curr) => {
-    acc[curr.key] = curr.value;
-    return acc;
-  }, {});
+  let settings = {};
+  try {
+    const rawSettings = await prisma.setting.findMany();
+    settings = rawSettings.reduce((acc: any, curr) => {
+      acc[curr.key] = curr.value;
+      return acc;
+    }, {});
+  } catch (error) {
+    console.error("Failed to fetch settings from database:", error);
+  }
 
   return (
     <div className="bg-primary-950 text-white min-h-screen flex flex-col">

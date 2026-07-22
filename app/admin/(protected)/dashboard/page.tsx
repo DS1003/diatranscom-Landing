@@ -1,6 +1,3 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 import {
   Briefcase,
   ImageIcon,
@@ -8,20 +5,30 @@ import {
   Users,
   TrendingUp,
 } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
-// Server Component Fetch
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const [servicesCount, projectsCount, testimonialsCount, contactsCount] = await Promise.all([
-    prisma.service.count(),
-    prisma.project.count(),
-    prisma.testimonial.count(),
-    prisma.contact.count(),
-  ]);
+  let servicesCount = 0;
+  let projectsCount = 0;
+  let testimonialsCount = 0;
+  let contactsCount = 0;
+
+  try {
+    const [s, p, t, c] = await Promise.all([
+      prisma.service.count(),
+      prisma.project.count(),
+      prisma.testimonial.count(),
+      prisma.contact.count(),
+    ]);
+    servicesCount = s;
+    projectsCount = p;
+    testimonialsCount = t;
+    contactsCount = c;
+  } catch (error) {
+    console.error("Dashboard database fetch error:", error);
+  }
 
   const stats = [
     { name: "Services", value: servicesCount, icon: Briefcase, color: "bg-blue-500" },
@@ -64,7 +71,6 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Derniers messages reçus</h2>
           <div className="space-y-4">
-            {/* Simulation de messages vides */}
             {contactsCount === 0 ? (
               <p className="text-sm text-gray-500 italic">Aucun message pour le moment.</p>
             ) : (

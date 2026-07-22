@@ -1,19 +1,17 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
-
 export async function getPosts() {
-  return prisma.blog.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    return await prisma.blog.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("getPosts error:", error);
+    return [];
+  }
 }
 
 export async function createPost(data: any) {

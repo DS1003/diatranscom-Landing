@@ -1,15 +1,8 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 import authConfig from "./auth.config";
-
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+import { prisma } from "@/lib/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -23,19 +16,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string }
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email as string }
+          });
 
-        if (!user) return null;
+          if (!user) return null;
 
-        const passwordsMatch = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        );
+          const passwordsMatch = await bcrypt.compare(
+            credentials.password as string,
+            user.password
+          );
 
-        if (passwordsMatch) {
-          return { id: user.id, email: user.email, name: user.name, role: user.role };
+          if (passwordsMatch) {
+            return { id: user.id, email: user.email, name: user.name, role: user.role };
+          }
+        } catch (error) {
+          console.error("Auth error:", error);
         }
         return null;
       }

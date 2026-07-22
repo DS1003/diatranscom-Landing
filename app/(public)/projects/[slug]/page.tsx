@@ -1,22 +1,22 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { prisma } from "@/lib/prisma";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+export const dynamic = "force-dynamic";
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const project = await prisma.project.findUnique({
-    where: { slug },
-  });
+  let project: any = null;
+  try {
+    project = await prisma.project.findUnique({
+      where: { slug },
+    });
+  } catch (error) {
+    console.error("Error fetching project by slug:", error);
+  }
 
   if (!project) {
     notFound();

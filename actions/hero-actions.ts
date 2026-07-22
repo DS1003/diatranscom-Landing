@@ -1,17 +1,15 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
-
 export async function getHero() {
-  return prisma.hero.findFirst();
+  try {
+    return await prisma.hero.findFirst();
+  } catch (error) {
+    console.error("getHero error:", error);
+    return null;
+  }
 }
 
 export async function saveHero(data: any) {

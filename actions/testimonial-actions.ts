@@ -1,19 +1,17 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
-
 export async function getTestimonials() {
-  return prisma.testimonial.findMany({
-    orderBy: { order: "asc" },
-  });
+  try {
+    return await prisma.testimonial.findMany({
+      orderBy: { order: "asc" },
+    });
+  } catch (error) {
+    console.error("getTestimonials error:", error);
+    return [];
+  }
 }
 
 export async function createTestimonial(data: any) {
