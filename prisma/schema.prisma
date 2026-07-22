@@ -1,0 +1,243 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ------------------------------------------------------
+// Authentication & Users
+// ------------------------------------------------------
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+// ------------------------------------------------------
+// Core Content
+// ------------------------------------------------------
+model Hero {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  description String?
+  buttonText  String?
+  buttonLink  String?
+  imageUrl    String?
+  videoUrl    String?
+  badges      Json?    // Array of strings or objects
+  stats       Json?    // Array of objects
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model About {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  mission     String?
+  vision      String?
+  history     String?
+  imageUrl    String?
+  stats       Json?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  imageUrl    String?
+  slug        String   @unique
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  seoTitle    String?
+  seoDesc     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  client      String?
+  date        DateTime?
+  description String
+  images      Json     // Array of URLs
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Partner {
+  id          String   @id @default(cuid())
+  name        String
+  logoUrl     String
+  link        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String?
+  company     String?
+  content     String
+  avatarUrl   String?
+  rating      Int      @default(5)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Faq {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ------------------------------------------------------
+// Blog / News
+// ------------------------------------------------------
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  excerpt     String?
+  imageUrl    String?
+  authorId    String?
+  authorName  String?
+  publishedAt DateTime?
+  seoTitle    String?
+  seoDesc     String?
+  isActive    Boolean  @default(true)
+  categoryId  String?
+  category    Category? @relation("BlogCategory", fields: [categoryId], references: [id])
+  tags        Tag[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  projects    Project[]
+  blogs       Blog[]    @relation("BlogCategory")
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  blogs       Blog[]
+}
+
+// ------------------------------------------------------
+// Media Management
+// ------------------------------------------------------
+model Media {
+  id          String   @id @default(cuid())
+  publicId    String   @unique
+  url         String
+  format      String?
+  width       Int?
+  height      Int?
+  bytes       Int?
+  createdAt   DateTime @default(now())
+}
+
+// ------------------------------------------------------
+// Contacts & Forms
+// ------------------------------------------------------
+model Contact {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  service     String?
+  message     String
+  status      ContactStatus @default(NEW)
+  archived    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+}
+
+// ------------------------------------------------------
+// Settings & Config
+// ------------------------------------------------------
+model Setting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       Json     // Can store simple strings or complex JSON
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Menu {
+  id          String   @id @default(cuid())
+  name        String
+  location    String   // e.g., "header", "footer"
+  items       Json     // Array of menu items {label, link, order}
+  updatedAt   DateTime @updatedAt
+}
+
+model SocialLink {
+  id          String   @id @default(cuid())
+  platform    String
+  url         String
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+}
+
+model Seo {
+  id          String   @id @default(cuid())
+  page        String   @unique // e.g., "home", "about", "contact"
+  title       String?
+  description String?
+  keywords    String?
+  ogImage     String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Analytics {
+  id          String   @id @default(cuid())
+  date        DateTime @unique
+  visitors    Int      @default(0)
+  pageViews   Int      @default(0)
+}
