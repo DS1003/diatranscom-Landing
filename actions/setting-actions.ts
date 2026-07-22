@@ -24,8 +24,8 @@ export async function saveSettings(data: any) {
   for (const [key, value] of Object.entries(data)) {
     await prisma.setting.upsert({
       where: { key },
-      update: { value },
-      create: { key, value },
+      update: { value: value as any },
+      create: { key, value: value as any },
     });
   }
   revalidatePath("/");

@@ -17,7 +17,7 @@ const navLinks = [
   { name: "Contact", href: "/#contact" },
 ];
 
-export const Header = () => {
+export const Header = ({ settings }: { settings?: any } = {}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
