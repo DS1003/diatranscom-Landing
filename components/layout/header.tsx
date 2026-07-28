@@ -20,6 +20,7 @@ const navLinks = [
 export const Header = ({ settings }: { settings?: any } = {}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -29,6 +30,52 @@ export const Header = ({ settings }: { settings?: any } = {}) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sections = ["home", "about", "services", "testimonials", "contact"];
+    const sectionElements = sections.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+    if (sectionElements.length === 0) return;
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-30% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      sectionElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [pathname]);
+
+  const isLinkActive = (linkHref: string) => {
+    if (pathname === "/") {
+      if (linkHref === "/") {
+        return activeSection === "home";
+      }
+      return linkHref === `/#${activeSection}`;
+    }
+
+    if (pathname.startsWith("/services") && linkHref === "/#services") {
+      return true;
+    }
+
+    return pathname === linkHref;
+  };
 
   return (
     <>
@@ -53,22 +100,27 @@ export const Header = ({ settings }: { settings?: any } = {}) => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="relative text-sm font-medium text-primary-200 hover:text-white transition-colors py-2"
-              >
-                {link.name}
-                {pathname === link.href && (
-                  <motion.div
-                    layoutId="activeNavIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-500"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = isLinkActive(link.href);
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`relative text-sm font-medium transition-colors py-2 ${
+                    isActive ? "text-white font-semibold" : "text-primary-200 hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-500"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
             
             <MagneticWrapper>
               <Button variant="accent" className="ml-4 rounded-full px-8">
@@ -98,23 +150,28 @@ export const Header = ({ settings }: { settings?: any } = {}) => {
         className="fixed inset-0 z-40 bg-primary-950/95 lg:hidden flex flex-col items-center justify-center"
       >
         <nav className="flex flex-col items-center gap-8">
-          {navLinks.map((link, i) => (
-            <motion.div
-              key={link.name}
-              variants={{
-                open: { y: 0, opacity: 1, transition: { delay: i * 0.1 + 0.1 } },
-                closed: { y: 20, opacity: 0 },
-              }}
-            >
-              <Link
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-4xl font-bold text-white hover:text-accent-500 transition-colors"
+          {navLinks.map((link, i) => {
+            const isActive = isLinkActive(link.href);
+            return (
+              <motion.div
+                key={link.name}
+                variants={{
+                  open: { y: 0, opacity: 1, transition: { delay: i * 0.1 + 0.1 } },
+                  closed: { y: 20, opacity: 0 },
+                }}
               >
-                {link.name}
-              </Link>
-            </motion.div>
-          ))}
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-4xl font-bold transition-colors ${
+                    isActive ? "text-accent-500" : "text-white hover:text-accent-500"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
+            );
+          })}
           <motion.div
             variants={{
               open: { y: 0, opacity: 1, transition: { delay: 0.6 } },

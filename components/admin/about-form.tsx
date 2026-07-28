@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader, Plus, Trash2 } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { saveAbout } from "@/actions/about-actions";
@@ -105,7 +105,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
             size="sm" 
             onClick={() => setStats([...stats, { value: "", label: "" }])}
           >
-            <Plus className="w-4 h-4 mr-1" /> Ajouter
+            <Plus size={16} className="mr-1" /> Ajouter
           </Button>
         </div>
         
@@ -141,7 +141,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
               className="text-red-500 hover:text-red-700"
               onClick={() => setStats(stats.filter((_, i) => i !== index))}
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 size={16} />
             </Button>
           </div>
         ))}
@@ -157,7 +157,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
             size="sm" 
             onClick={() => setMissions([...missions, { title: "", desc: "" }])}
           >
-            <Plus className="w-4 h-4 mr-1" /> Ajouter
+            <Plus size={16} className="mr-1" /> Ajouter
           </Button>
         </div>
         
@@ -192,7 +192,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
               className="text-red-500 hover:text-red-700 bg-white"
               onClick={() => setMissions(missions.filter((_, i) => i !== index))}
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 size={16} />
             </Button>
           </div>
         ))}
@@ -200,7 +200,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
 
       <div className="flex justify-end pt-4 border-t border-gray-100">
         <Button type="submit" variant="accent" disabled={isLoading}>
-          {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+          {isLoading ? <Loader size={16} className="mr-2 animate-spin" /> : null}
           Mettre à jour À Propos
         </Button>
       </div>

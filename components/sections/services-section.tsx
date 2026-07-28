@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, Droplets, Construction, Mountain, Building2, HardHat, ClipboardCheck } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -58,6 +59,7 @@ export const ServicesSection = ({ initialServices }: ServicesSectionProps) => {
       description: "Services complets d'assainissement urbain et rural : réseaux d'égouts, stations d'épuration.",
       tags: ["Réseaux d'égouts", "Stations d'épuration"],
       number: "1",
+      slug: "assainissement",
     },
     {
       icon: <Construction className="w-8 h-8" />,
@@ -65,6 +67,7 @@ export const ServicesSection = ({ initialServices }: ServicesSectionProps) => {
       description: "Travaux de terrassement pour tous types de projets : excavation, nivellement.",
       tags: ["Excavation", "Nivellement"],
       number: "2",
+      slug: "terrassement",
     },
     {
       icon: <Building2 className="w-8 h-8" />,
@@ -72,6 +75,7 @@ export const ServicesSection = ({ initialServices }: ServicesSectionProps) => {
       description: "Construction et rénovation d'infrastructures : bâtiments, routes, ponts et ouvrages d'art.",
       tags: ["Infrastructure", "Rénovation"],
       number: "3",
+      slug: "travaux-btp",
     },
   ];
 
@@ -83,6 +87,7 @@ export const ServicesSection = ({ initialServices }: ServicesSectionProps) => {
         description: s.description,
         tags: [],
         number: (index + 1).toString(),
+        slug: s.slug,
       }))
     : staticServices;
 
@@ -136,10 +141,10 @@ export const ServicesSection = ({ initialServices }: ServicesSectionProps) => {
                       </span>
                     ))}
                   </div>
-                  <div className="inline-flex items-center text-sm font-bold text-white group-hover:text-accent-400 transition-colors cursor-pointer">
+                  <Link href={`/services/${service.slug}`} className="inline-flex items-center text-sm font-bold text-white group-hover:text-accent-400 transition-colors cursor-pointer">
                     <span>En savoir plus</span>
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-300" />
-                  </div>
+                  </Link>
                 </CardContent>
               </Card>
             </div>

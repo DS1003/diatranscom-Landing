@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2 } from "lucide-react";
+import { Loader } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { createProject, updateProject } from "@/actions/project-actions";
@@ -44,9 +44,14 @@ export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onS
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: initialData ? {
-      ...initialData,
+      title: initialData.title || "",
+      slug: initialData.slug || "",
+      client: initialData.client || "",
       date: formattedDate,
-      images: JSON.stringify(initialImages)
+      description: initialData.description || "",
+      images: JSON.stringify(initialImages),
+      isActive: initialData.isActive ?? true,
+      order: initialData.order ?? 0,
     } : {
       title: "",
       slug: "",
@@ -100,55 +105,55 @@ export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onS
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white rounded-xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Titre du projet</label>
+          <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Titre du projet</label>
           <input
             {...register("title")}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 outline-none"
+            className="w-full px-5 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-accent-500/10 focus:border-accent-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
           />
           {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Slug URL</label>
+          <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Slug URL</label>
           <input
             {...register("slug")}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 outline-none"
+            className="w-full px-5 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-accent-500/10 focus:border-accent-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
             placeholder="ex: route-nationale-1"
           />
           {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug.message}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Client</label>
+          <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Client</label>
           <input
             {...register("client")}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 outline-none"
+            className="w-full px-5 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-accent-500/10 focus:border-accent-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
             placeholder="ex: État du Sénégal"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+          <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Date</label>
           <input
             type="date"
             {...register("date")}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 outline-none"
+            className="w-full px-5 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-accent-500/10 focus:border-accent-500 focus:bg-white outline-none transition-all placeholder:text-gray-400"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Description complète</label>
+        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Description complète</label>
         <textarea
           {...register("description")}
           rows={5}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 outline-none resize-none"
+          className="w-full px-5 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-accent-500/10 focus:border-accent-500 focus:bg-white outline-none transition-all resize-none placeholder:text-gray-400"
         />
         {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Image Principale</label>
+        <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Image Principale</label>
         <ImageUpload 
           value={currentImages.length > 0 ? currentImages[0] : ""} 
           onChange={handleImageChange} 
@@ -156,9 +161,9 @@ export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onS
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        <input type="checkbox" {...register("isActive")} id="isActive" className="w-4 h-4 text-accent-600 rounded" />
-        <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Publier sur le site</label>
+      <div className="flex items-center gap-3 p-4 bg-gray-50/50 border border-gray-100 rounded-xl">
+        <input type="checkbox" {...register("isActive")} id="isActive" className="w-5 h-5 text-accent-600 rounded focus:ring-accent-500" />
+        <label htmlFor="isActive" className="text-sm font-bold text-gray-700 cursor-pointer">Publier sur le site</label>
       </div>
 
       <div className="flex justify-end pt-4 border-t border-gray-100">
@@ -168,7 +173,7 @@ export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onS
           </Button>
         )}
         <Button type="submit" variant="accent" disabled={isLoading}>
-          {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+          {isLoading ? <Loader size={16} className="mr-2 animate-spin" /> : null}
           {initialData ? "Mettre à jour" : "Créer le projet"}
         </Button>
       </div>

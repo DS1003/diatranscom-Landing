@@ -1,16 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2 } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { ServiceForm } from "@/components/admin/service-form";
 import { deleteService } from "@/actions/service-actions";
 import { toast } from "sonner";
 
+import { useSearchParams } from "next/navigation";
+
 export const ServicesClient = ({ services }: { services: any[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<any>(null);
+
+  const searchParams = useSearchParams();
+  const searchVal = searchParams.get("search") || "";
+
+  const filteredServices = services.filter((service) => 
+    service.title.toLowerCase().includes(searchVal.toLowerCase()) ||
+    service.slug.toLowerCase().includes(searchVal.toLowerCase()) ||
+    (service.description && service.description.toLowerCase().includes(searchVal.toLowerCase()))
+  );
 
   const openModal = (service?: any) => {
     setSelectedService(service || null);
@@ -38,7 +49,7 @@ export const ServicesClient = ({ services }: { services: any[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Expertise & Services</h1>
         <Button variant="accent" className="flex items-center gap-2" onClick={() => openModal()}>
-          <Plus className="w-4 h-4" />
+          <Plus size={16} />
           Nouveau Service
         </Button>
       </div>
@@ -55,14 +66,14 @@ export const ServicesClient = ({ services }: { services: any[] }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {services.length === 0 ? (
+              {filteredServices.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                     Aucun service trouvé.
                   </td>
                 </tr>
               ) : (
-                services.map((service) => (
+                filteredServices.map((service) => (
                   <tr key={service.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-900">{service.title}</td>
                     <td className="px-6 py-4 text-gray-500">{service.slug}</td>
@@ -78,13 +89,13 @@ export const ServicesClient = ({ services }: { services: any[] }) => {
                         onClick={() => openModal(service)}
                         className="text-blue-600 hover:text-blue-800 p-1"
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit size={16} />
                       </button>
                       <button 
                         onClick={() => handleDelete(service.id)}
                         className="text-red-600 hover:text-red-800 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>

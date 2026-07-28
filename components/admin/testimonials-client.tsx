@@ -1,16 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2 } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { TestimonialForm } from "@/components/admin/testimonial-form";
 import { deleteTestimonial } from "@/actions/testimonial-actions";
 import { toast } from "sonner";
 
+import { useSearchParams } from "next/navigation";
+
 export const TestimonialsClient = ({ testimonials }: { testimonials: any[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
+
+  const searchParams = useSearchParams();
+  const searchVal = searchParams.get("search") || "";
+
+  const filteredTestimonials = testimonials.filter((t) => 
+    t.name.toLowerCase().includes(searchVal.toLowerCase()) ||
+    (t.role && t.role.toLowerCase().includes(searchVal.toLowerCase())) ||
+    (t.content && t.content.toLowerCase().includes(searchVal.toLowerCase()))
+  );
 
   const openModal = (testimonial?: any) => {
     setSelectedTestimonial(testimonial || null);
@@ -38,7 +49,7 @@ export const TestimonialsClient = ({ testimonials }: { testimonials: any[] }) =>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Témoignages Clients</h1>
         <Button variant="accent" className="flex items-center gap-2" onClick={() => openModal()}>
-          <Plus className="w-4 h-4" />
+          <Plus size={16} />
           Nouveau Témoignage
         </Button>
       </div>
@@ -56,14 +67,14 @@ export const TestimonialsClient = ({ testimonials }: { testimonials: any[] }) =>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {testimonials.length === 0 ? (
+              {filteredTestimonials.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     Aucun témoignage trouvé.
                   </td>
                 </tr>
               ) : (
-                testimonials.map((t) => (
+                filteredTestimonials.map((t) => (
                   <tr key={t.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-900">{t.name}</td>
                     <td className="px-6 py-4 text-gray-500">{t.role}</td>
@@ -84,13 +95,13 @@ export const TestimonialsClient = ({ testimonials }: { testimonials: any[] }) =>
                         onClick={() => openModal(t)}
                         className="text-blue-600 hover:text-blue-800 p-1"
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit size={16} />
                       </button>
                       <button 
                         onClick={() => handleDelete(t.id)}
                         className="text-red-600 hover:text-red-800 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>

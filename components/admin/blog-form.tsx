@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { createPost, updatePost } from "@/actions/blog-actions";
@@ -26,7 +26,15 @@ export const BlogForm = ({ initialData, onSuccess }: { initialData?: any, onSucc
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
-    defaultValues: initialData || {
+    defaultValues: initialData ? {
+      title: initialData.title || "",
+      slug: initialData.slug || "",
+      excerpt: initialData.excerpt || "",
+      content: initialData.content || "",
+      imageUrl: initialData.imageUrl || "",
+      authorName: initialData.authorName || "",
+      isActive: initialData.isActive ?? true,
+    } : {
       title: "",
       slug: "",
       excerpt: "",
@@ -129,7 +137,7 @@ export const BlogForm = ({ initialData, onSuccess }: { initialData?: any, onSucc
           </Button>
         )}
         <Button type="submit" variant="accent" disabled={isLoading}>
-          {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+          {isLoading ? <Loader size={16} className="mr-2 animate-spin" /> : null}
           {initialData ? "Mettre à jour" : "Créer l'article"}
         </Button>
       </div>

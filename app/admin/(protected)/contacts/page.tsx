@@ -1,10 +1,25 @@
 import { getContacts, deleteContact, markContactAsRead } from "@/actions/contact-actions";
-import { Mail, MailOpen, Trash2 } from "lucide-react";
+import { Envelope, EnvelopeOpen } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { ContactActionButtons } from "@/components/admin/contact-action-buttons";
 
-export default async function ContactsPage() {
-  const contacts = await getContacts();
+export default async function ContactsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>;
+}) {
+  const params = await searchParams;
+  const searchVal = params.search || "";
+  let contacts = await getContacts();
+
+  if (searchVal) {
+    contacts = contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(searchVal.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchVal.toLowerCase()) ||
+      (contact.service && contact.service.toLowerCase().includes(searchVal.toLowerCase())) ||
+      contact.message.toLowerCase().includes(searchVal.toLowerCase())
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -37,9 +52,9 @@ export default async function ContactsPage() {
                   <tr key={contact.id} className={`transition-colors ${contact.status === "NEW" ? "bg-accent-50/30" : "hover:bg-gray-50"}`}>
                     <td className="px-6 py-4">
                       {contact.status === "NEW" ? (
-                        <Mail className="w-5 h-5 text-accent-500" />
+                        <Envelope size={20} className="text-accent-500" />
                       ) : (
-                        <MailOpen className="w-5 h-5 text-gray-400" />
+                        <EnvelopeOpen size={20} className="text-gray-400" />
                       )}
                     </td>
                     <td className={`px-6 py-4 ${contact.status === "NEW" ? "font-bold text-gray-900" : "font-medium text-gray-700"}`}>
@@ -51,7 +66,15 @@ export default async function ContactsPage() {
                       {new Date(contact.createdAt).toLocaleDateString("fr-FR")}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <ContactActionButtons id={contact.id} status={contact.status} message={contact.message} />
+                      <ContactActionButtons 
+                        id={contact.id} 
+                        status={contact.status} 
+                        message={contact.message} 
+                        name={contact.name}
+                        email={contact.email}
+                        service={contact.service}
+                        date={new Date(contact.createdAt).toLocaleDateString("fr-FR")}
+                      />
                     </td>
                   </tr>
                 ))
