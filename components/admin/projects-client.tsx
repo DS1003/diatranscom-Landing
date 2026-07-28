@@ -1,16 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2 } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { ProjectForm } from "@/components/admin/project-form";
 import { deleteProject } from "@/actions/project-actions";
 import { toast } from "sonner";
 
+import { useSearchParams } from "next/navigation";
+
 export const ProjectsClient = ({ projects }: { projects: any[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<any>(null);
+
+  const searchParams = useSearchParams();
+  const searchVal = searchParams.get("search") || "";
+
+  const filteredProjects = projects.filter((project) => 
+    project.title.toLowerCase().includes(searchVal.toLowerCase()) ||
+    (project.client && project.client.toLowerCase().includes(searchVal.toLowerCase())) ||
+    (project.description && project.description.toLowerCase().includes(searchVal.toLowerCase()))
+  );
 
   const openModal = (project?: any) => {
     setSelectedProject(project || null);
@@ -38,7 +49,7 @@ export const ProjectsClient = ({ projects }: { projects: any[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Portfolio & Réalisations</h1>
         <Button variant="accent" className="flex items-center gap-2" onClick={() => openModal()}>
-          <Plus className="w-4 h-4" />
+          <Plus size={16} />
           Nouveau Projet
         </Button>
       </div>
@@ -56,14 +67,14 @@ export const ProjectsClient = ({ projects }: { projects: any[] }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {projects.length === 0 ? (
+              {filteredProjects.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     Aucun projet trouvé.
                   </td>
                 </tr>
               ) : (
-                projects.map((project) => (
+                filteredProjects.map((project) => (
                   <tr key={project.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-900">{project.title}</td>
                     <td className="px-6 py-4 text-gray-500">{project.client || "-"}</td>
@@ -82,13 +93,13 @@ export const ProjectsClient = ({ projects }: { projects: any[] }) => {
                         onClick={() => openModal(project)}
                         className="text-blue-600 hover:text-blue-800 p-1"
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit size={16} />
                       </button>
                       <button 
                         onClick={() => handleDelete(project.id)}
                         className="text-red-600 hover:text-red-800 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>

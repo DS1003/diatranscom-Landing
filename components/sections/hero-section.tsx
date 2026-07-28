@@ -18,7 +18,7 @@ export const HeroSection = ({ initialHero }: HeroSectionProps) => {
   const imageUrl = initialHero?.imageUrl || "https://res.cloudinary.com/dgro5x4h8/image/upload/f_auto,q_auto/v1747407227/IMG_1700_3_qxzt02.jpg";
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-primary-950">
+    <section id="home" className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-primary-950">
       {/* Background Video/Image Placeholder */}
       <div className="absolute inset-0 z-0">
         <motion.div

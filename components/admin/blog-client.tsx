@@ -1,16 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Trash2 } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { BlogForm } from "@/components/admin/blog-form";
 import { deletePost } from "@/actions/blog-actions";
 import { toast } from "sonner";
 
+import { useSearchParams } from "next/navigation";
+
 export const BlogClient = ({ posts }: { posts: any[] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  const searchParams = useSearchParams();
+  const searchVal = searchParams.get("search") || "";
+
+  const filteredPosts = posts.filter((post) => 
+    post.title.toLowerCase().includes(searchVal.toLowerCase()) ||
+    (post.authorName && post.authorName.toLowerCase().includes(searchVal.toLowerCase())) ||
+    (post.content && post.content.toLowerCase().includes(searchVal.toLowerCase()))
+  );
 
   const openModal = (post?: any) => {
     setSelectedPost(post || null);
@@ -38,7 +49,7 @@ export const BlogClient = ({ posts }: { posts: any[] }) => {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Actualités & Blog</h1>
         <Button variant="accent" className="flex items-center gap-2" onClick={() => openModal()}>
-          <Plus className="w-4 h-4" />
+          <Plus size={16} />
           Nouvel Article
         </Button>
       </div>
@@ -56,14 +67,14 @@ export const BlogClient = ({ posts }: { posts: any[] }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {posts.length === 0 ? (
+              {filteredPosts.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
                     Aucun article trouvé.
                   </td>
                 </tr>
               ) : (
-                posts.map((post) => (
+                filteredPosts.map((post) => (
                   <tr key={post.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-900">{post.title}</td>
                     <td className="px-6 py-4 text-gray-500">{post.authorName || "-"}</td>
@@ -82,13 +93,13 @@ export const BlogClient = ({ posts }: { posts: any[] }) => {
                         onClick={() => openModal(post)}
                         className="text-blue-600 hover:text-blue-800 p-1"
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit size={16} />
                       </button>
                       <button 
                         onClick={() => handleDelete(post.id)}
                         className="text-red-600 hover:text-red-800 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>

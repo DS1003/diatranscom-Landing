@@ -14,6 +14,17 @@ export async function getServices() {
   }
 }
 
+export async function getServiceBySlug(slug: string) {
+  try {
+    return await prisma.service.findUnique({
+      where: { slug },
+    });
+  } catch (error) {
+    console.error("getServiceBySlug error:", error);
+    return null;
+  }
+}
+
 export async function createService(data: any) {
   const service = await prisma.service.create({
     data,

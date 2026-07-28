@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Loader2 } from "lucide-react";
+import { Loader } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { saveHero } from "@/actions/hero-actions";
@@ -101,7 +101,7 @@ export const HeroForm = ({ initialData }: { initialData?: any }) => {
 
       <div className="flex justify-end pt-4 border-t border-gray-100">
         <Button type="submit" variant="accent" disabled={isLoading}>
-          {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+          {isLoading ? <Loader size={16} className="mr-2 animate-spin" /> : null}
           Mettre à jour l'accueil
         </Button>
       </div>
