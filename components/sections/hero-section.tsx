@@ -26,10 +26,11 @@ export const HeroSection = ({ initialHero }: HeroSectionProps) => {
           animate={{ scale: 1 }}
           transition={{ duration: 10, ease: "easeOut" }}
           style={{ backgroundImage: `url(${imageUrl})` }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary-950 via-primary-950/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-950 via-primary-950/40 to-transparent" />
+        {/* Gradient from solid primary color on the left to transparent on the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900 via-primary-900/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary-950/50 to-transparent" />
       </div>
 
       <div className="container mx-auto px-6 lg:px-16 relative z-10">
