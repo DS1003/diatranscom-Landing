@@ -13,11 +13,22 @@ export async function getAbout() {
 }
 
 export async function saveAbout(data: any) {
-  const existingAbout = await prisma.about.findFirst();
+  const abouts = await prisma.about.findMany({
+    orderBy: { id: 'asc' }
+  });
   
-  if (existingAbout) {
+  if (abouts.length > 0) {
+    const targetAbout = abouts[0];
+    
+    // Clean up any duplicates if they exist
+    if (abouts.length > 1) {
+      for (let i = 1; i < abouts.length; i++) {
+        await prisma.about.delete({ where: { id: abouts[i].id } });
+      }
+    }
+
     await prisma.about.update({
-      where: { id: existingAbout.id },
+      where: { id: targetAbout.id },
       data,
     });
   } else {

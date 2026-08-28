@@ -23,6 +23,7 @@ const serviceSchema = z.object({
 });
 
 export const ServiceForm = ({ initialData, onSuccess }: { initialData?: any, onSuccess?: () => void }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "gallery">("info");
 
@@ -59,6 +60,7 @@ export const ServiceForm = ({ initialData, onSuccess }: { initialData?: any, onS
         await createService(data);
         toast.success("Service créé");
       }
+      router.refresh();
       if (onSuccess) {
         onSuccess();
       }

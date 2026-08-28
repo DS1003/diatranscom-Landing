@@ -6,8 +6,10 @@ import { Loader } from "reicon-react";
 import { Button } from "@/components/ui/button";
 import { saveSettings } from "@/actions/setting-actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const SettingsForm = ({ initialData }: { initialData: any }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit } = useForm({
@@ -27,6 +29,7 @@ export const SettingsForm = ({ initialData }: { initialData: any }) => {
     try {
       await saveSettings(data);
       toast.success("Paramètres enregistrés");
+      router.refresh();
     } catch {
       toast.error("Erreur lors de l'enregistrement");
     } finally {

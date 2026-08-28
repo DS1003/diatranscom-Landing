@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { saveHero } from "@/actions/hero-actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const HeroForm = ({ initialData }: { initialData?: any }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, setValue, watch } = useForm({
@@ -33,6 +35,7 @@ export const HeroForm = ({ initialData }: { initialData?: any }) => {
       };
       await saveHero(formattedData);
       toast.success("Page d'accueil mise à jour");
+      router.refresh();
     } catch {
       toast.error("Erreur lors de l'enregistrement");
     } finally {

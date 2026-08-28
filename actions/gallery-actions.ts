@@ -40,7 +40,8 @@ export async function addServiceMedia(data: any) {
     });
     
     revalidatePath(`/admin/services`);
-    revalidatePath(`/services`);
+    revalidatePath(`/services`, 'layout');
+    revalidatePath(`/`);
     return media;
   } catch (error) {
     console.error("addServiceMedia error:", error);
@@ -64,7 +65,8 @@ export async function updateServiceMedia(id: string, data: any) {
     });
     
     revalidatePath(`/admin/services`);
-    revalidatePath(`/services`);
+    revalidatePath(`/services`, 'layout');
+    revalidatePath(`/`);
     return media;
   } catch (error) {
     console.error("updateServiceMedia error:", error);
@@ -79,7 +81,8 @@ export async function deleteServiceMedia(id: string) {
     });
     
     revalidatePath(`/admin/services`);
-    revalidatePath(`/services`);
+    revalidatePath(`/services`, 'layout');
+    revalidatePath(`/`);
     return true;
   } catch (error) {
     console.error("deleteServiceMedia error:", error);
@@ -101,7 +104,8 @@ export async function reorderServiceMedia(items: { id: string, order: number }[]
     await prisma.$transaction(updates);
     
     revalidatePath(`/admin/services`);
-    revalidatePath(`/services`);
+    revalidatePath(`/services`, 'layout');
+    revalidatePath(`/`);
     return true;
   } catch (error) {
     console.error("reorderServiceMedia error:", error);
@@ -125,7 +129,8 @@ export async function setServiceMediaCover(id: string, serviceId: string) {
     ]);
     
     revalidatePath(`/admin/services`);
-    revalidatePath(`/services`);
+    revalidatePath(`/services`, 'layout');
+    revalidatePath(`/`);
     return true;
   } catch (error) {
     console.error("setServiceMediaCover error:", error);

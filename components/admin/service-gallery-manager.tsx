@@ -22,12 +22,14 @@ import { toast } from "sonner";
 import { getServiceGallery, reorderServiceMedia } from "@/actions/gallery-actions";
 import { SortableMediaItem } from "./sortable-media-item";
 import { MediaForm } from "./media-form";
+import { useRouter } from "next/navigation";
 
 interface ServiceGalleryManagerProps {
   serviceId: string;
 }
 
 export const ServiceGalleryManager = ({ serviceId }: ServiceGalleryManagerProps) => {
+  const router = useRouter();
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,6 +82,7 @@ export const ServiceGalleryManager = ({ serviceId }: ServiceGalleryManagerProps)
       try {
         await reorderServiceMedia(reorderedItems.map((i) => ({ id: i.id, order: i.order })));
         toast.success("Ordre mis à jour");
+        router.refresh();
       } catch (error) {
         toast.error("Erreur lors de la réorganisation");
         loadMedia(); // reload on error
@@ -96,6 +99,7 @@ export const ServiceGalleryManager = ({ serviceId }: ServiceGalleryManagerProps)
     setIsModalOpen(false);
     setSelectedMedia(null);
     loadMedia(); // refresh list after create/update
+    router.refresh();
   };
 
   if (isLoading) {

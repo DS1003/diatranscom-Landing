@@ -9,8 +9,10 @@ import Image from "next/image";
 import { deleteServiceMedia, setServiceMediaCover } from "@/actions/gallery-actions";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export const SortableMediaItem = ({ media, onEdit, onRefresh }: { media: any, onEdit: () => void, onRefresh: () => void }) => {
+  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const {
@@ -37,6 +39,7 @@ export const SortableMediaItem = ({ media, onEdit, onRefresh }: { media: any, on
     try {
       await deleteServiceMedia(media.id);
       toast.success("Média supprimé");
+      router.refresh();
       onRefresh();
     } catch (error) {
       toast.error("Erreur lors de la suppression");
@@ -49,6 +52,7 @@ export const SortableMediaItem = ({ media, onEdit, onRefresh }: { media: any, on
     try {
       await setServiceMediaCover(media.id, media.serviceId);
       toast.success("Image de couverture définie");
+      router.refresh();
       onRefresh();
     } catch (error) {
       toast.error("Erreur");
