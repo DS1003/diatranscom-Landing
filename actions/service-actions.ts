@@ -30,6 +30,7 @@ export async function createService(data: any) {
     data,
   });
   revalidatePath("/admin/services");
+  revalidatePath("/services", "layout");
   revalidatePath("/");
   return service;
 }
@@ -40,6 +41,7 @@ export async function updateService(id: string, data: any) {
     data,
   });
   revalidatePath("/admin/services");
+  revalidatePath("/services", "layout");
   revalidatePath("/");
   return service;
 }
@@ -49,5 +51,6 @@ export async function deleteService(id: string) {
     where: { id },
   });
   revalidatePath("/admin/services");
+  revalidatePath("/services", "layout");
   revalidatePath("/");
 }

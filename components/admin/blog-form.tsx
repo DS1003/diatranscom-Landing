@@ -22,6 +22,7 @@ const blogSchema = z.object({
 });
 
 export const BlogForm = ({ initialData, onSuccess }: { initialData?: any, onSuccess?: () => void }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<z.infer<typeof blogSchema>>({
@@ -57,6 +58,7 @@ export const BlogForm = ({ initialData, onSuccess }: { initialData?: any, onSucc
         await createPost(data);
         toast.success("Article créé");
       }
+      router.refresh();
       if (onSuccess) onSuccess();
     } catch (error) {
       toast.error("Erreur lors de l'enregistrement");

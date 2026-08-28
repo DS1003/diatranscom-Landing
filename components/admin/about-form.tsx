@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { saveAbout } from "@/actions/about-actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const AboutForm = ({ initialData }: { initialData?: any }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   // Parse JSON for lists if they exist
@@ -54,6 +56,7 @@ export const AboutForm = ({ initialData }: { initialData?: any }) => {
       };
       await saveAbout(formattedData);
       toast.success("Section À Propos mise à jour");
+      router.refresh();
     } catch {
       toast.error("Erreur lors de l'enregistrement");
     } finally {

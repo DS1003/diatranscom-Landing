@@ -5,6 +5,7 @@ import { markContactAsRead, deleteContact } from "@/actions/contact-actions";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Modal } from "@/components/ui/modal";
+import { useRouter } from "next/navigation";
 
 interface ContactActionButtonsProps {
   id: string;
@@ -17,12 +18,14 @@ interface ContactActionButtonsProps {
 }
 
 export const ContactActionButtons = ({ id, status, message, name, email, service, date }: any) => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleMarkAsRead = async () => {
     try {
       await markContactAsRead(id);
       toast.success("Message marqué comme lu");
+      router.refresh();
     } catch {
       toast.error("Erreur lors de la mise à jour");
     }
@@ -33,6 +36,7 @@ export const ContactActionButtons = ({ id, status, message, name, email, service
       try {
         await deleteContact(id);
         toast.success("Message supprimé");
+        router.refresh();
       } catch {
         toast.error("Erreur lors de la suppression");
       }

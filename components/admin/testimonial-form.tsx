@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { createTestimonial, updateTestimonial } from "@/actions/testimonial-actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const testimonialSchema = z.object({
   name: z.string().min(2, "Nom requis"),
@@ -21,6 +22,7 @@ const testimonialSchema = z.object({
 });
 
 export const TestimonialForm = ({ initialData, onSuccess }: { initialData?: any, onSuccess?: () => void }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<z.infer<typeof testimonialSchema>>({
@@ -56,6 +58,7 @@ export const TestimonialForm = ({ initialData, onSuccess }: { initialData?: any,
         await createTestimonial(data);
         toast.success("Témoignage ajouté");
       }
+      router.refresh();
       if (onSuccess) onSuccess();
     } catch (error) {
       toast.error("Erreur lors de l'enregistrement");

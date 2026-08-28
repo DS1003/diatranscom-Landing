@@ -6,6 +6,7 @@ import { addServiceMedia, updateServiceMedia } from "@/actions/gallery-actions";
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from "./image-upload";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 interface MediaFormProps {
   serviceId: string;
@@ -14,6 +15,7 @@ interface MediaFormProps {
 }
 
 export const MediaForm = ({ serviceId, initialData, onSuccess }: MediaFormProps) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   
   // Custom simple form state (replacing react-hook-form to avoid complex imports right now, or just using standard controlled inputs)
@@ -54,6 +56,7 @@ export const MediaForm = ({ serviceId, initialData, onSuccess }: MediaFormProps)
         await addServiceMedia({ ...formData, serviceId });
         toast.success("Média ajouté");
       }
+      router.refresh();
       onSuccess();
     } catch (error) {
       toast.error("Une erreur est survenue");

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { createProject, updateProject } from "@/actions/project-actions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const projectSchema = z.object({
   title: z.string().min(2, "Titre requis"),
@@ -22,6 +23,7 @@ const projectSchema = z.object({
 });
 
 export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onSuccess?: () => void }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   // Parse images if string
@@ -93,6 +95,7 @@ export const ProjectForm = ({ initialData, onSuccess }: { initialData?: any, onS
         await createProject(formattedData);
         toast.success("Projet créé");
       }
+      router.refresh();
       if (onSuccess) onSuccess();
     } catch (error) {
       toast.error("Erreur lors de l'enregistrement");
